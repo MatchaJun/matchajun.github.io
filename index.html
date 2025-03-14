@@ -1,22 +1,87 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Check-ins ao Vivo</title>
-
-  <!-- Inclusão dos scripts do Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.9.3/firebase-database.js"></script>
-
-  <!-- Inclusão do arquivo CSS (separado) -->
-  <link rel="stylesheet" href="styles.css">
-
+  <title>Check-in</title>
 </head>
 <body>
-  <div id="checkin-container"></div> <!-- Contêiner para os cartões de check-in -->
+  <h1>Bem-vindo ao Check-in!</h1>
 
-  <!-- Inclusão do arquivo JS -->
-  <script src="script.js"></script>
+  <!-- Script para importar o SDK do Firebase como módulo -->
+  <script type="module">
+    // Importa as funções do SDK que você precisa
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
+    import { getDatabase, ref, onChildAdded } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+
+    // Configuração do Firebase (substitua pelos seus dados)
+    const firebaseConfig = {
+      apiKey: "AIzaSyCm97Jxw-CK-m3C3qCG8bIIPYDv9QmXYkc",
+      authDomain: "checkin-card.firebaseapp.com",
+      databaseURL: "https://checkin-card-default-rtdb.firebaseio.com",
+      projectId: "checkin-card",
+      storageBucket: "checkin-card.firebasestorage.app",
+      messagingSenderId: "841892799276",
+      appId: "1:841892799276:web:93148b585f6cd0e8de4289",
+      measurementId: "G-WHDV13H81N"
+    };
+
+    // Inicializa o Firebase
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
+
+    // Função para escutar os check-ins no Firebase
+    function listenForCheckins() {
+      const checkinsRef = ref(database, 'checkins');
+
+      // Escuta por novos check-ins (child_added)
+      onChildAdded(checkinsRef, (snapshot) => {
+        const checkinData = snapshot.val();
+        const userName = checkinData.user;
+
+        // Chama a função para adicionar o nome à página
+        addUserToPage(userName);
+      });
+    }
+
+    // Função para adicionar o nome na página com animação
+    function addUserToPage(userName) {
+      const userCard = document.createElement("div");
+      userCard.classList.add("user-card");
+      userCard.innerHTML = `<p>${userName} fez check-in!</p>`;
+
+      // Adiciona o cartão na página
+      document.body.appendChild(userCard);
+
+      // Adiciona animação de swipe (simples exemplo)
+      userCard.style.animation = "swipe 1s forwards";
+    }
+
+    // Chama a função para escutar os check-ins
+    listenForCheckins();
+  </script>
+
+  <style>
+    /* Animação do swipe */
+    @keyframes swipe {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+
+    /* Estilo para o cartão */
+    .user-card {
+      margin: 10px;
+      padding: 20px;
+      background-color: #f0f0f0;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+  </style>
 </body>
 </html>
