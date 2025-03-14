@@ -1,50 +1,22 @@
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Check-ins ao Vivo</title>
 
-<script>
-  // Configuração do Firebase
-  const firebaseConfig = {
-    apiKey: "your-api-key",
-    authDomain: "your-auth-domain",
-    databaseURL: "https://your-database-url.firebaseio.com",
-    projectId: "your-project-id",
-    storageBucket: "your-storage-bucket",
-    messagingSenderId: "your-sender-id",
-    appId: "your-app-id"
-  };
+  <!-- Inclusão dos scripts do Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/9.9.3/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.9.3/firebase-database.js"></script>
 
-  // Inicializando Firebase
-  const app = firebase.initializeApp(firebaseConfig);
-  const database = firebase.database(app);
+  <!-- Inclusão do arquivo CSS (separado) -->
+  <link rel="stylesheet" href="styles.css">
 
-  // Função para escutar os dados
-  function listenForCheckins() {
-    const checkinsRef = database.ref('checkins');
+</head>
+<body>
+  <div id="checkin-container"></div> <!-- Contêiner para os cartões de check-in -->
 
-    checkinsRef.on('child_added', (snapshot) => {
-      const checkin = snapshot.val();
-      const user = checkin.user;
-      const timestamp = checkin.timestamp;
-
-      // Exibir o cartão de check-in na tela
-      showCheckinCard(user, timestamp);
-    });
-  }
-
-  // Função para exibir o cartão de check-in
-  function showCheckinCard(user, timestamp) {
-    const card = document.createElement('div');
-    card.classList.add('checkin-card');
-    card.innerHTML = `
-      <p>Check-in de: ${user}</p>
-      <p>Hora: ${timestamp}</p>
-    `;
-    document.body.appendChild(card);
-
-    // Adicionar animação de swipe aqui
-    card.classList.add('swipe-animation');
-  }
-
-  // Chamar a função para escutar os check-ins
-  listenForCheckins();
-</script>
+  <!-- Inclusão do arquivo JS -->
+  <script src="script.js"></script>
+</body>
+</html>
