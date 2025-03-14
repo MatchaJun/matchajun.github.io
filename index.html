@@ -1,16 +1,35 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cartão de Check-in</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Check-in Animação</title>
+  <style>
+    /* Seu CSS para o cartão de animação */
+  </style>
 </head>
 <body>
-    <div class="card" id="checkinCard">
-        <h1 id="username">Nome do Usuário</h1>
-    </div>
+  <div id="card">
+    <p id="checkinText">Aguardando check-in...</p>
+  </div>
 
-    <script src="script.js"></script>
+  <script>
+    // Obtendo o nome do usuário da URL
+    const params = new URLSearchParams(window.location.search);
+    const user = params.get('user');
+
+    if (user) {
+      // Atualiza a animação com o nome do usuário
+      document.getElementById('checkinText').textContent = `Check-in de: ${user}`;
+
+      // Aqui você pode adicionar sua lógica para a animação
+      // Por exemplo, fazer o cartão "swipe"
+    }
+
+    // Forçar atualização da página a cada intervalo, como uma "escuta" da mudança
+    setInterval(function() {
+      window.location.reload(); // Isso recarrega a página a cada 5 segundos (ajuste conforme necessário)
+    }, 5000);  // Atualize conforme necessário
+  </script>
 </body>
 </html>
