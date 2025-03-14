@@ -1,0 +1,30 @@
+/* Definição do cartão */
+.card {
+    width: 300px;
+    height: 150px;
+    background-color: #4CAF50;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    position: relative;
+    opacity: 0;
+    transform: translateX(-100%);
+    animation: swipe-in 1s forwards;
+}
+
+@keyframes swipe-in {
+    0% {
+        opacity: 0;
+        transform: translateX(-100%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.card h1 {
+    font-size: 24px;
+}
