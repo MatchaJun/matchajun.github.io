@@ -3,33 +3,106 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Check-in Animação</title>
+  <title>Site de Animações</title>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+
   <style>
-    /* Seu CSS para o cartão de animação */
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 50px;
+    }
+
+    #welcomeMessage {
+      font-size: 2em;
+      color: #6a0dad; /* cor roxa para destacar */
+    }
+
+    #animation {
+      margin-top: 20px;
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background-color: #6a0dad;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.2);
+        opacity: 0.6;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
   </style>
 </head>
 <body>
-  <div id="card">
-    <p id="checkinText">Aguardando check-in...</p>
-  </div>
+  <div id="welcomeMessage">Bem-vindo, <span id="userName">Usuário</span>!</div>
+  <div id="animation"></div>
 
   <script>
-    // Obtendo o nome do usuário da URL
-    const params = new URLSearchParams(window.location.search);
-    const user = params.get('user');
+    // Configuração do Firebase
+    const firebaseConfig = {
+      apiKey: "SUA_API_KEY",
+      authDomain: "SEU_AUTH_DOMAIN",
+      databaseURL: "SEU_DATABASE_URL",
+      projectId: "SEU_PROJECT_ID",
+      storageBucket: "SEU_STORAGE_BUCKET",
+      messagingSenderId: "SEU_MESSAGING_SENDER_ID",
+      appId: "SEU_APP_ID",
+      measurementId: "SEU_MEASUREMENT_ID"
+    };
 
-    if (user) {
-      // Atualiza a animação com o nome do usuário
-      document.getElementById('checkinText').textContent = `Check-in de: ${user}`;
+    // Inicializa o Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const database = firebase.database(app);
 
-      // Aqui você pode adicionar sua lógica para a animação
-      // Por exemplo, fazer o cartão "swipe"
+    // Função para capturar o parâmetro "user" da URL
+    function getUserNameFromURL() {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get('user'); // Retorna o valor do parâmetro 'user'
     }
 
-    // Forçar atualização da página a cada intervalo, como uma "escuta" da mudança
-    setInterval(function() {
-      window.location.reload(); // Isso recarrega a página a cada 5 segundos (ajuste conforme necessário)
-    }, 5000);  // Atualize conforme necessário
+    // Atualiza o nome do usuário na página
+    function updateUserName(userName) {
+      const userNameElement = document.getElementById('userName');
+      if (userName) {
+        userNameElement.textContent = userName; // Mostra o nome na página
+      } else {
+        userNameElement.textContent = 'Usuário desconhecido'; // Se não tiver nome, exibe isso
+      }
+    }
+
+    // Ouve as alterações no Firebase
+    const checkinsRef = database.ref('checkins'); // Referência no Firebase onde os check-ins são armazenados
+
+    checkinsRef.on('child_added', (snapshot) => {
+      const checkin = snapshot.val();
+      if (checkin && checkin.user) {
+        // Atualiza a página com o nome do usuário que fez o check-in
+        updateUserName(checkin.user);
+        
+        // Ativa a animação
+        document.getElementById('animation').style.animation = 'pulse 2s infinite';
+      }
+    });
+
+    // Chama a função para atualizar o nome assim que a página carregar
+    const userNameFromURL = getUserNameFromURL();
+    if (userNameFromURL) {
+      // Envia o nome para o Firebase
+      checkinsRef.push({ user: userNameFromURL });
+    } else {
+      updateUserName('Usuário não informado');
+    }
   </script>
 </body>
 </html>
