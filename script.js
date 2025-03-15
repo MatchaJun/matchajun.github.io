@@ -25,14 +25,34 @@ onChildAdded(checkinsRef, (snapshot) => {
 });
 
 // Cria o cartão de check-in
-function exibirCheckin(userName) {
+function exibirCheckin(userName, imageUrl) {
     const checkinsDiv = document.getElementById("checkins");
+
+    // Cria o elemento do cartão
     const card = document.createElement("div");
     card.classList.add("card");
-    card.textContent = `${userName} fez check-in!`;
+
+    // Cria a imagem
+    const img = document.createElement("img");
+    img.src = imageUrl;
+    img.alt = userName;
+    img.style.width = "100px"; // Ajuste o tamanho da imagem como quiser
+    img.style.height = "100px";
+    img.style.borderRadius = "50%"; // Deixa a imagem redonda
+
+    // Cria o texto do nome
+    const text = document.createElement("p");
+    text.textContent = `${userName} fez check-in!`;
+
+    // Adiciona a imagem e o texto ao cartão
+    card.appendChild(img);
+    card.appendChild(text);
+
+    // Adiciona o cartão à tela
     checkinsDiv.appendChild(card);
 
+    // Remove o cartão depois de 5 segundos
     setTimeout(() => {
         card.remove();
-    }, 5000); // Remove o cartão depois de 5s
+    }, 5000);
 }
