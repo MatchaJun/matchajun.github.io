@@ -29,17 +29,26 @@ function exibirCheckin(userName, imageUrl) {
 
     const checkinsDiv = document.getElementById("checkins");
 
-    // Cria o elemento do cartão
+    // Cria o cartão
     const card = document.createElement("div");
     card.classList.add("card");
-
-    // Define a imagem como fundo do cartão
     card.style.backgroundImage = `url(${imageUrl})`;
+    card.style.width = "800px";
+    card.style.height = "500px";
+    card.style.backgroundSize = "cover";
+    card.style.backgroundPosition = "center";
+    card.style.position = "relative"; // Importante para o posicionamento do texto
 
     // Cria o texto do nome
     const text = document.createElement("p");
-    text.textContent = `${userName}`;
-    text.classList.add("card-text"); // Adiciona uma classe para estilizar depois
+    text.textContent = `${userName} fez check-in!`;
+    text.style.position = "absolute";
+    text.style.bottom = "20px";
+    text.style.left = "20px";
+    text.style.color = "white";
+    text.style.fontSize = "24px";
+    text.style.fontWeight = "bold";
+    text.style.textShadow = "2px 2px 5px rgba(0, 0, 0, 0.7)"; // Deixa legível
 
     // Adiciona o texto ao cartão
     card.appendChild(text);
