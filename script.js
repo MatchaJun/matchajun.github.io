@@ -23,18 +23,15 @@ const checkinsRef = ref(database, "checkins");
 // Escuta novos check-ins em tempo real
 onChildAdded(checkinsRef, (snapshot) => {
     const data = snapshot.val();
-    console.log("Dados recebidos do Firebase:", data); // <- Teste aqui
+    //console.log("Dados recebidos do Firebase:", data); // <- Teste aqui
     exibirCheckin(data.user, data.imagemURL);
 });
 
 // Cria o cartão de check-in
 function exibirCheckin(userName, imageUrl) {
-    const checkinsDiv = document.getElementById("checkins");
+    console.log("Recebido do Firebase:", { userName, imageUrl });
 
-    // Se a imagem for undefined ou vazia, usa uma imagem padrão
-    if (!imageUrl) {
-        imageUrl = "https://imgur.com/cFbeymf"; // Substitua por uma imagem padrão
-    }
+    const checkinsDiv = document.getElementById("checkins");
 
     // Cria o elemento do cartão
     const card = document.createElement("div");
@@ -55,12 +52,8 @@ function exibirCheckin(userName, imageUrl) {
     // Adiciona a imagem e o texto ao cartão
     card.appendChild(img);
     card.appendChild(text);
-
-    // Adiciona o cartão à tela
     checkinsDiv.appendChild(card);
 
-    // Remove o cartão depois de 5 segundos
-    setTimeout(() => {
-        card.remove();
-    }, 5000);
+    // Remove depois de 5 segundos
+    setTimeout(() => card.remove(), 5000);
 }
