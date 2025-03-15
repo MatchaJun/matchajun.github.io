@@ -28,6 +28,11 @@ onChildAdded(checkinsRef, (snapshot) => {
 function exibirCheckin(userName, imageUrl) {
     const checkinsDiv = document.getElementById("checkins");
 
+    // Se a imagem for undefined ou vazia, usa uma imagem padrão
+    if (!imageUrl) {
+        imageUrl = "https://via.placeholder.com/100"; // Substitua por uma imagem padrão
+    }
+
     // Cria o elemento do cartão
     const card = document.createElement("div");
     card.classList.add("card");
@@ -36,9 +41,9 @@ function exibirCheckin(userName, imageUrl) {
     const img = document.createElement("img");
     img.src = imageUrl;
     img.alt = userName;
-    img.style.width = "100px"; // Ajuste o tamanho da imagem como quiser
+    img.style.width = "100px";
     img.style.height = "100px";
-    img.style.borderRadius = "50%"; // Deixa a imagem redonda
+    img.style.borderRadius = "50%";
 
     // Cria o texto do nome
     const text = document.createElement("p");
