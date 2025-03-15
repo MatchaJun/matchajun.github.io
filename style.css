@@ -11,23 +11,30 @@ body {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* Move o cartão para o centro */
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px; /* Espaço entre os cartões */
+    width: auto;
+    height: auto;
 }
 
 .card {
-    width: 800px;
-    height: 500px;
-    background-size: cover;
-    background-position: center;
-    border-radius: 8px;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
+    background-image: url('https://via.placeholder.com/800x500'); /* Exemplo de imagem de fundo */
+    background-size: cover; /* Faz a imagem cobrir todo o fundo */
+    color: #fff;
     padding: 20px;
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    width: 800px; /* Largura do cartão */
+    height: 500px; /* Altura do cartão */
+    margin-bottom: 10px;
+    border-radius: 8px;
+    transform: translateX(100%);
+    animation: slide-in 0.5s forwards;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .card p {
