@@ -16,19 +16,25 @@ body {
 }
 
 .card {
-    width: 800px; /* Largura do cartão */
-    height: 500px; /* Altura do cartão */
-    background-size: cover; /* Faz a imagem cobrir todo o cartão */
-    background-position: center; /* Centraliza a imagem */
+    width: 800px;
+    height: 500px;
+    background-size: cover;
+    background-position: center;
     border-radius: 8px;
     display: flex;
-    align-items: flex-end; /* Faz o texto ficar na parte inferior */
+    align-items: flex-end;
     justify-content: center;
     padding: 20px;
-    color: white; /* Cor do texto para ficar visível */
+    color: white;
     font-size: 24px;
     font-weight: bold;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Deixa o texto mais legível */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.card-text {
+    background: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente para melhorar a legibilidade */
+    padding: 10px;
+    border-radius: 5px;
 }
 
 @keyframes slide-in {
