@@ -1,3 +1,5 @@
+console.log("O script.js foi carregado!");
+
 // Configuração do Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
 import { getDatabase, ref, onChildAdded } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
