@@ -3,7 +3,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebas
 import { getDatabase, ref, onChildAdded } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCm97Jxw-CK-m3C3qCG8bIIPYDv9QmXYkc",
+    apiKey: "AIzaSyCm97Jxw-CKm3C3qCG8bIIPYDv9QmXYkc",
     authDomain: "checkin-card.firebaseapp.com",
     databaseURL: "https://checkin-card-default-rtdb.firebaseio.com/",
     projectId: "checkin-card",
@@ -33,20 +33,15 @@ function exibirCheckin(userName, imageUrl) {
     const card = document.createElement("div");
     card.classList.add("card");
 
-    // Cria a imagem
-    const img = document.createElement("img");
-    img.src = imageUrl;
-    img.alt = userName;
-    img.style.width = "100px";
-    img.style.height = "100px";
-    img.style.borderRadius = "50%";
+    // Define a imagem como fundo do cartão
+    card.style.backgroundImage = `url(${imageUrl})`;
 
     // Cria o texto do nome
     const text = document.createElement("p");
-    text.textContent = `${userName} fez check-in!`;
+    text.textContent = `${userName}`;
+    text.classList.add("card-text"); // Adiciona uma classe para estilizar depois
 
-    // Adiciona a imagem e o texto ao cartão
-    card.appendChild(img);
+    // Adiciona o texto ao cartão
     card.appendChild(text);
     checkinsDiv.appendChild(card);
 
