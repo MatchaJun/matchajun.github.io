@@ -1,7 +1,7 @@
-// Configuração do Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
-import { getDatabase, ref, onChildAdded } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+import { getDatabase, ref, onChildAdded, remove } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
 
+// Configuração do Firebase
 const firebaseConfig = {
     apiKey: "AIzaSyCm97Jxw-CK-m3C3qCG8bIIPYDv9QmXYkc",
     authDomain: "checkin-card.firebaseapp.com",
@@ -18,30 +18,32 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const checkinsRef = ref(database, "checkins");
 
-const checkinQueue = []; // Fila de check-ins
-let isDisplaying = false; // Controle de exibição
+const checkinQueue = [];
+let isDisplaying = false;
 
-// Escuta novos check-ins em tempo real
+// Escuta novos check-ins
 onChildAdded(checkinsRef, (snapshot) => {
     const data = snapshot.val();
-    checkinQueue.push(data); // Adiciona o check-in à fila
-    processQueue(); // Processa a fila
+    checkinQueue.push({ key: snapshot.key, ...data }); // 🔥 Guarda a chave do check-in
+    processQueue();
 });
 
 function processQueue() {
     if (isDisplaying || checkinQueue.length === 0) return;
 
     isDisplaying = true;
-    const data = checkinQueue.shift(); // Pega o próximo check-in da fila
-    exibirCheckin(data.user, data.imagemURL, () => {
+    const { key, user, imagemURL } = checkinQueue.shift();
+    
+    exibirCheckin(user, imagemURL, () => {
+        remove(ref(database, `checkins/${key}`)); // 🔥 Remove do Firebase depois de exibir
         isDisplaying = false;
-        processQueue(); // Chama a próxima exibição após o tempo de exibição
+        processQueue();
     });
 }
 
 function exibirCheckin(userName, imageUrl, callback) {
     const checkinsDiv = document.getElementById("checkins");
-    
+
     const card = document.createElement("div");
     card.classList.add("card");
     card.style.backgroundImage = `url(${imageUrl})`;
@@ -55,12 +57,11 @@ function exibirCheckin(userName, imageUrl, callback) {
     card.appendChild(text);
     checkinsDiv.appendChild(card);
 
-    // Remove o cartão depois de 5 segundos e chama o callback
     setTimeout(() => {
-        card.classList.add("exit"); // Ativa a animação de saída
+        card.classList.add("exit");
         setTimeout(() => {
-            checkinsDiv.removeChild(card); // Remove o cartão do DOM após a animação
-            callback();
-        }, 1500); // O tempo precisa bater com a duração da animação do CSS (1s)
+            card.remove();
+            callback(); // 🔥 Continua a fila depois de remover do Firebase
+        }, 1000);
     }, 5000);
 }
