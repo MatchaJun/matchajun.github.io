@@ -3,7 +3,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebas
 import { getDatabase, ref, onChildAdded } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCm97Jxw-CKm3C3qCG8bIIPYDv9QmXYkc",
+    apiKey: "AIzaSyCm97Jxw-CK-m3C3qCG8bIIPYDv9QmXYkc",
     authDomain: "checkin-card.firebaseapp.com",
     databaseURL: "https://checkin-card-default-rtdb.firebaseio.com/",
     projectId: "checkin-card",
@@ -18,42 +18,49 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const checkinsRef = ref(database, "checkins");
 
+const checkinQueue = []; // Fila de check-ins
+let isDisplaying = false; // Controle de exibição
+
 // Escuta novos check-ins em tempo real
 onChildAdded(checkinsRef, (snapshot) => {
     const data = snapshot.val();
-    exibirCheckin(data.user, data.imagemURL);
+    checkinQueue.push(data); // Adiciona o check-in à fila
+    processQueue(); // Processa a fila
 });
 
-function exibirCheckin(userName, imageUrl) {
-    console.log("Recebido do Firebase:", { userName, imageUrl });
+function processQueue() {
+    if (isDisplaying || checkinQueue.length === 0) return;
 
+    isDisplaying = true;
+    const data = checkinQueue.shift(); // Pega o próximo check-in da fila
+    exibirCheckin(data.user, data.imagemURL, () => {
+        isDisplaying = false;
+        processQueue(); // Chama a próxima exibição após o tempo de exibição
+    });
+}
+
+function exibirCheckin(userName, imageUrl, callback) {
     const checkinsDiv = document.getElementById("checkins");
-
-    // Cria o cartão
+    
     const card = document.createElement("div");
     card.classList.add("card");
     card.style.backgroundImage = `url(${imageUrl})`;
-    card.style.width = "800px";
-    card.style.height = "500px";
     card.style.backgroundSize = "cover";
     card.style.backgroundPosition = "center";
-    card.style.position = "relative"; // Importante para o posicionamento do texto
 
-    // Cria o texto do nome
     const text = document.createElement("p");
     text.textContent = `${userName} fez check-in!`;
-    text.style.position = "absolute";
-    text.style.bottom = "20px";
-    text.style.left = "20px";
-    text.style.color = "white";
-    text.style.fontSize = "24px";
-    text.style.fontWeight = "bold";
-    text.style.textShadow = "2px 2px 5px rgba(0, 0, 0, 0.7)"; // Deixa legível
+    text.classList.add("checkin-text");
 
-    // Adiciona o texto ao cartão
     card.appendChild(text);
     checkinsDiv.appendChild(card);
 
-    // Remove depois de 5 segundos
-    setTimeout(() => card.remove(), 5000);
+    // Remove o cartão depois de 5 segundos e chama o callback
+    setTimeout(() => {
+        card.classList.add("exit"); // Adiciona classe de saída
+        setTimeout(() => {
+            card.remove();
+            callback(); // Chama o callback para exibir o próximo check-in
+        }, 500); // Tempo da animação de saída
+    }, 5000);
 }
