@@ -1,5 +1,3 @@
-console.log("O script.js foi carregado!");
-
 // Configuração do Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
 import { getDatabase, ref, onChildAdded } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
@@ -23,7 +21,6 @@ const checkinsRef = ref(database, "checkins");
 // Escuta novos check-ins em tempo real
 onChildAdded(checkinsRef, (snapshot) => {
     const data = snapshot.val();
-    //console.log("Dados recebidos do Firebase:", data); // <- Teste aqui
     exibirCheckin(data.user, data.imagemURL);
 });
 
