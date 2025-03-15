@@ -30,7 +30,7 @@ function exibirCheckin(userName, imageUrl) {
 
     // Se a imagem for undefined ou vazia, usa uma imagem padrão
     if (!imageUrl) {
-        imageUrl = "https://via.placeholder.com/100"; // Substitua por uma imagem padrão
+        imageUrl = "https://imgur.com/cFbeymf"; // Substitua por uma imagem padrão
     }
 
     // Cria o elemento do cartão
