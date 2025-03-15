@@ -24,33 +24,28 @@ onChildAdded(checkinsRef, (snapshot) => {
     exibirCheckin(data.user, data.imagemURL);
 });
 
-// Cria o cartão de check-in
 function exibirCheckin(userName, imageUrl) {
-    console.log("Recebido do Firebase:", { userName, imageUrl });
-
     const checkinsDiv = document.getElementById("checkins");
 
     // Cria o elemento do cartão
     const card = document.createElement("div");
     card.classList.add("card");
 
-    // Cria a imagem
-    const img = document.createElement("img");
-    img.src = imageUrl;
-    img.alt = userName;
-    img.style.width = "100px";
-    img.style.height = "100px";
-    img.style.borderRadius = "50%";
+    // Define a imagem como fundo do cartão
+    card.style.backgroundImage = `url(${imageUrl})`;
 
     // Cria o texto do nome
     const text = document.createElement("p");
-    text.textContent = `${userName} fez check-in!`;
-
-    // Adiciona a imagem e o texto ao cartão
-    card.appendChild(img);
+    text.textContent = `${userName}`;
+    
+    // Adiciona o texto ao cartão
     card.appendChild(text);
+
+    // Adiciona o cartão à tela
     checkinsDiv.appendChild(card);
 
-    // Remove depois de 5 segundos
-    setTimeout(() => card.remove(), 5000);
+    // Remove o cartão depois de 5 segundos
+    setTimeout(() => {
+        card.remove();
+    }, 5000);
 }
