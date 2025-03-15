@@ -16,7 +16,7 @@ const firebaseConfig = {
 // Inicializa o Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
-const checkinsRef = ref(database, "checkins");
+import { remove } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
 
 const checkinQueue = []; // Fila de check-ins
 let isDisplaying = false; // Controle de exibição
@@ -62,5 +62,5 @@ function exibirCheckin(userName, imageUrl, callback) {
             checkinsDiv.removeChild(card); // Remove o cartão do DOM após a animação
             callback();
         }, 1500); // O tempo precisa bater com a duração da animação do CSS (1s)
-    }, 1000);
+    }, 5000);
 }
