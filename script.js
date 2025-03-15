@@ -57,10 +57,10 @@ function exibirCheckin(userName, imageUrl, callback) {
 
     // Remove o cartão depois de 5 segundos e chama o callback
     setTimeout(() => {
-        card.classList.add("exit"); // Adiciona classe de saída
+        card.classList.add("exit"); // Ativa a animação de saída
         setTimeout(() => {
-            card.remove();
-            callback(); // Chama o callback para exibir o próximo check-in
-        }, 500); // Tempo da animação de saída
+            checkinsDiv.removeChild(card); // Remove o cartão do DOM após a animação
+            callback();
+        }, 1000); // O tempo precisa bater com a duração da animação do CSS (1s)
     }, 5000);
 }
