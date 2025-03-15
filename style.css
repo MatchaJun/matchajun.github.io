@@ -21,20 +21,32 @@ body {
 }
 
 .card {
-    background-image: url('https://via.placeholder.com/800x500'); /* Exemplo de imagem de fundo */
-    background-size: cover; /* Faz a imagem cobrir todo o fundo */
-    color: #fff;
-    padding: 20px;
-    width: 800px; /* Largura do cartão */
-    height: 500px; /* Altura do cartão */
-    margin-bottom: 10px;
+    width: 800px;
+    height: 500px;
     border-radius: 8px;
-    transform: translateX(100%);
-    animation: slide-in 0.5s forwards;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateX(100%);
+    animation: slide-in 0.5s forwards;
+    transition: transform 0.5s ease-in-out;
+}
+
+@keyframes slide-in {
+    from {
+        transform: translate(-50%, -50%) translateX(100%);
+    }
+    to {
+        transform: translate(-50%, -50%) translateX(0);
+    }
+}
+
+.exit {
+    transform: translate(-50%, -50%) translateX(-100%);
 }
 
 .card p {
