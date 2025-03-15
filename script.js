@@ -21,6 +21,7 @@ const checkinsRef = ref(database, "checkins");
 // Escuta novos check-ins em tempo real
 onChildAdded(checkinsRef, (snapshot) => {
     const data = snapshot.val();
+    console.log("Dados recebidos do Firebase:", data); // <- Teste aqui
     exibirCheckin(data.user, data.imagemURL);
 });
 
