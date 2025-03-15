@@ -32,55 +32,36 @@ function processQueue() {
     if (isDisplaying || checkinQueue.length === 0) return;
 
     isDisplaying = true;
-    const { key, user, imagemURL, imagemVersoURL } = checkinQueue.shift();
+    const { key, user, imagemURL } = checkinQueue.shift();
     
-    exibirCheckin(user, imagemURL, imagemVersoURL, () => {
-        remove(ref(database, `checkins/${key}`)); // 🔥 Remove do Firebase depois de exibir
+    exibirCheckin(user, imagemURL, () => {
+        remove(ref(database, checkins/${key})); // 🔥 Remove do Firebase depois de exibir
         isDisplaying = false;
         processQueue();
     });
 }
 
-function exibirCheckin(userName, frontImageUrl, backImageUrl, callback) {
+function exibirCheckin(userName, imageUrl, callback) {
     const checkinsDiv = document.getElementById("checkins");
-
-    const cardContainer = document.createElement("div");
-    cardContainer.classList.add("card-container");
 
     const card = document.createElement("div");
     card.classList.add("card");
-
-    const frontFace = document.createElement("div");
-    frontFace.classList.add("card-face", "card-front");
-    frontFace.style.backgroundImage = `url(${frontImageUrl})`;
-
-    const backFace = document.createElement("div");
-    backFace.classList.add("card-face", "card-back");
-    backFace.style.backgroundImage = `url(${backImageUrl})`;
+    card.style.backgroundImage = url(${imageUrl});
+    card.style.backgroundSize = "cover";
+    card.style.backgroundPosition = "center";
 
     const text = document.createElement("p");
-    text.textContent = `${userName} fez check-in!`;
+    text.textContent = ${userName} fez check-in!;
     text.classList.add("checkin-text");
 
-    frontFace.appendChild(text);
-    card.appendChild(frontFace);
-    card.appendChild(backFace);
-    cardContainer.appendChild(card);
-    checkinsDiv.appendChild(cardContainer);
+    card.appendChild(text);
+    checkinsDiv.appendChild(card);
 
-    // Aguarda um tempo e faz o flip
     setTimeout(() => {
-        card.classList.add("flipped");
-
-        // Após 3s, inicia a saída
+        card.classList.add("exit");
         setTimeout(() => {
-            card.classList.add("exit");
-
-            setTimeout(() => {
-                cardContainer.remove();
-                callback(); // 🔥 Continua a fila depois de remover do Firebase
-            }, 1000);
-        }, 3000);
-
-    }, 2500);
+            card.remove();
+            callback(); // 🔥 Continua a fila depois de remover do Firebase
+        }, 1000);
+    }, 5000);
 }
