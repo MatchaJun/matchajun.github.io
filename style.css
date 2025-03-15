@@ -31,6 +31,16 @@ body {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 
+.card p {
+    position: absolute; /* Permite posicionar o texto sobre a imagem */
+    bottom: 20px; /* Ajuste conforme necessário */
+    left: 20px;
+    color: white; /* Cor do texto */
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7); /* Dá um contorno preto para melhor legibilidade */
+}
+
 .card-text {
     background: rgba(0, 0, 0, 0.5); /* Fundo semi-transparente para melhorar a legibilidade */
     padding: 10px;
