@@ -37,8 +37,7 @@ function exibirCheckin(userName, imageUrl) {
     card.style.height = "500px";
     card.style.backgroundSize = "cover";
     card.style.backgroundPosition = "center";
-    card.style.position = "relative"; // Garante que o texto fique dentro
-    card.style.borderRadius = "20px"; // Caso queira bordas arredondadas
+    card.style.position = "relative"; // Importante para o posicionamento do texto
 
     // Cria o texto do nome
     const text = document.createElement("p");
@@ -49,8 +48,7 @@ function exibirCheckin(userName, imageUrl) {
     text.style.color = "white";
     text.style.fontSize = "24px";
     text.style.fontWeight = "bold";
-    text.style.textShadow = "2px 2px 5px rgba(0, 0, 0, 0.7)"; // Contorno preto pro texto aparecer melhor
-    text.style.zIndex = "10"; // Garante que o texto fique na frente da imagem
+    text.style.textShadow = "2px 2px 5px rgba(0, 0, 0, 0.7)"; // Deixa legível
 
     // Adiciona o texto ao cartão
     card.appendChild(text);
