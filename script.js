@@ -62,5 +62,5 @@ function exibirCheckin(userName, imageUrl, callback) {
             checkinsDiv.removeChild(card); // Remove o cartão do DOM após a animação
             callback();
         }, 1500); // O tempo precisa bater com a duração da animação do CSS (1s)
-    }, 5000);
+    }, 1000);
 }
