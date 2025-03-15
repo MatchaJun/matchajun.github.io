@@ -21,7 +21,7 @@ const checkinsRef = ref(database, "checkins");
 // Escuta novos check-ins em tempo real
 onChildAdded(checkinsRef, (snapshot) => {
     const data = snapshot.val();
-    exibirCheckin(data.user);
+    exibirCheckin(data.user, data.imagemURL);
 });
 
 // Cria o cartão de check-in
