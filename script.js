@@ -16,7 +16,7 @@ const firebaseConfig = {
 // Inicializa o Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
-import { remove } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
+const checkinsRef = ref(database, "checkins");
 
 const checkinQueue = []; // Fila de check-ins
 let isDisplaying = false; // Controle de exibição
