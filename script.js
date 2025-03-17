@@ -35,7 +35,7 @@ function processQueue() {
     const { key, user, imagemURL } = checkinQueue.shift();
     
     exibirCheckin(user, imagemURL, () => {
-        remove(ref(database, checkins/${key})); // 🔥 Remove do Firebase depois de exibir
+        remove(ref(database, `checkins/${key}`)); // 🔥 Remove do Firebase depois de exibir
         isDisplaying = false;
         processQueue();
     });
@@ -46,12 +46,12 @@ function exibirCheckin(userName, imageUrl, callback) {
 
     const card = document.createElement("div");
     card.classList.add("card");
-    card.style.backgroundImage = url(${imageUrl});
+    card.style.backgroundImage = `url(${imageUrl})`;
     card.style.backgroundSize = "cover";
     card.style.backgroundPosition = "center";
 
     const text = document.createElement("p");
-    text.textContent = ${userName} fez check-in!;
+    text.textContent = `${userName} fez check-in!`;
     text.classList.add("checkin-text");
 
     card.appendChild(text);
