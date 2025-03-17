@@ -24,7 +24,7 @@ let isDisplaying = false;
 // Escuta novos check-ins
 onChildAdded(checkinsRef, (snapshot) => {
     const data = snapshot.val();
-    checkinQueue.push({ key: snapshot.key, ...data }); // 🔥 Guarda a chave do check-in
+    checkinQueue.push({ key: snapshot.key, ...data }); // Guarda a chave do check-in
     processQueue();
 });
 
@@ -32,12 +32,26 @@ function processQueue() {
     if (isDisplaying || checkinQueue.length === 0) return;
 
     isDisplaying = true;
-    const { key, user, imagemURL } = checkinQueue.shift();
-    
-    exibirCheckin(user, imagemURL, () => {
-        remove(ref(database, `checkins/${key}`)); // 🔥 Remove do Firebase depois de exibir
+    const checkin = checkinQueue.shift();
+
+    if (!checkin || !checkin.key || !checkin.user || !checkin.imagemURL) {
         isDisplaying = false;
         processQueue();
+        return;
+    }
+
+    const { key, user, imagemURL } = checkin;
+
+    exibirCheckin(user, imagemURL, () => {
+        const checkinRef = ref(database, `checkins/${key}`);
+        remove(checkinRef).then(() => {
+            isDisplaying = false;
+            processQueue();
+        }).catch(error => {
+            console.error("Erro ao remover check-in:", error);
+            isDisplaying = false;
+            processQueue();
+        });
     });
 }
 
@@ -61,7 +75,7 @@ function exibirCheckin(userName, imageUrl, callback) {
         card.classList.add("exit");
         setTimeout(() => {
             card.remove();
-            callback(); // 🔥 Continua a fila depois de remover do Firebase
+            callback(); // Continua a fila depois de remover do Firebase
         }, 1000);
     }, 5000);
 }
