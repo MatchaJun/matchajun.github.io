@@ -20,25 +20,25 @@ body {
     height: auto;
 }
 
-/* Animações de entrada e saída com escala */
-@keyframes size-in {
+/* Animações combinadas */
+@keyframes slide-size-in {
     0% {
-        transform: translate(-50%, -50%) scale(0.5);
+        transform: translate(-50%, -50%) translateX(100%) scale(0.5);
         opacity: 0;
     }
     100% {
-        transform: translate(-50%, -50%) scale(1);
+        transform: translate(-50%, -50%) translateX(0) scale(1);
         opacity: 1;
     }
 }
 
-@keyframes size-out {
+@keyframes slide-size-out {
     0% {
-        transform: translate(-50%, -50%) scale(1);
+        transform: translate(-50%, -50%) translateX(0) scale(1);
         opacity: 1;
     }
     100% {
-        transform: translate(-50%, -50%) scale(0.5);
+        transform: translate(-50%, -50%) translateX(-100%) scale(0.5);
         opacity: 0;
     }
 }
@@ -54,15 +54,15 @@ body {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0.5);
-    opacity: 0;
     background-size: cover;
     background-position: center;
-    animation: size-in 0.6s ease-out forwards;
+    transform: translate(-50%, -50%) translateX(100%) scale(0.5);
+    opacity: 0;
+    animation: slide-size-in 0.6s ease-out forwards;
 }
 
 .exit {
-    animation: size-out 0.5s ease-in forwards;
+    animation: slide-size-out 0.5s ease-in forwards;
 }
 
 .card p {
