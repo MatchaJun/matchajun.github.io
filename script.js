@@ -24,7 +24,7 @@ let isDisplaying = false;
 // Escuta novos check-ins
 onChildAdded(checkinsRef, (snapshot) => {
   const data = snapshot.val();
-  checkinQueue.push({ key: snapshot.key, ...data }); // Guarda a chave do check-in
+  checkinQueue.push({ key: snapshot.key, ...data });
   processQueue();
 });
 
@@ -61,8 +61,6 @@ function exibirCheckin(userName, imageUrl, callback) {
   const card = document.createElement("div");
   card.classList.add("card");
   card.style.backgroundImage = `url(${imageUrl})`;
-  card.style.backgroundSize = "cover";
-  card.style.backgroundPosition = "center";
 
   const text = document.createElement("p");
   text.textContent = `${userName} fez check-in!`;
@@ -71,18 +69,14 @@ function exibirCheckin(userName, imageUrl, callback) {
   card.appendChild(text);
   checkinsDiv.appendChild(card);
 
-  // Aplica animações extras após entrada
-  card.style.animation = "card-entrance 1s ease-out forwards, pulse 0.5s ease-in-out 1s";
-
-  // Remove após 5 segundos com animação de saída
   setTimeout(() => {
     card.classList.add("exit");
-    setTimeout(() => {
+    card.addEventListener("animationend", () => {
       card.remove();
-      callback(); // Continua a fila depois de remover do Firebase
-    }, 1000);
+      callback();
+    });
   }, 5000);
 }
 
-// Teste manual
+// Teste local
 exibirCheckin("fernando", "https://i.imgur.com/QqS9SvH.png", () => {});
