@@ -18,12 +18,32 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const checkinsRef = ref(database, "checkins");
 
-// Carrega o som de check-in
-const audio = new Audio("https://cdn.pixabay.com/audio/2025/08/15/audio_c12b07d680.mp3");
-audio.volume = 0.8;
-
 const checkinQueue = [];
 let isDisplaying = false;
+
+// Web Audio API setup
+let audioContext;
+let audioBuffer;
+
+window.onload = () => {
+  audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  fetch("https://cdn.pixabay.com/download/audio/2022/03/15/audio_123456789.mp3") // substitua por seu som
+    .then(response => response.arrayBuffer())
+    .then(buffer => audioContext.decodeAudioData(buffer))
+    .then(decoded => {
+      audioBuffer = decoded;
+    })
+    .catch(error => console.warn("Erro ao carregar som:", error));
+};
+
+// Função para tocar o som
+function tocarSom() {
+  if (!audioContext || !audioBuffer) return;
+  const source = audioContext.createBufferSource();
+  source.buffer = audioBuffer;
+  source.connect(audioContext.destination);
+  source.start(0);
+}
 
 // Escuta novos check-ins
 onChildAdded(checkinsRef, (snapshot) => {
@@ -65,6 +85,8 @@ function exibirCheckin(userName, imageUrl, callback) {
   const card = document.createElement("div");
   card.classList.add("card");
   card.style.backgroundImage = `url(${imageUrl})`;
+  card.style.backgroundSize = "cover";
+  card.style.backgroundPosition = "center";
 
   const text = document.createElement("p");
   text.textContent = `${userName} fez check-in!`;
@@ -73,16 +95,15 @@ function exibirCheckin(userName, imageUrl, callback) {
   card.appendChild(text);
   checkinsDiv.appendChild(card);
 
-  // Toca o som de check-in
-  audio.currentTime = 0;
-  audio.play().catch(e => console.warn("Erro ao tocar som:", e));
+  // Toca o som via Web Audio API
+  tocarSom();
 
   setTimeout(() => {
     card.classList.add("exit");
-    card.addEventListener("animationend", () => {
+    setTimeout(() => {
       card.remove();
       callback();
-    });
+    }, 1000);
   }, 5000);
 }
 
