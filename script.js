@@ -27,7 +27,7 @@ let audioBuffer;
 
 window.onload = () => {
   audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  fetch("https://assets.mixkit.co/sfx/download/mixkit-store-door-bell-ring-934.mp3")
+  fetch("https://cdn.pixabay.com/download/audio/2022/03/15/audio_123456789.mp3") // substitua por seu som
     .then(response => response.arrayBuffer())
     .then(buffer => audioContext.decodeAudioData(buffer))
     .then(decoded => {
@@ -102,7 +102,7 @@ function exibirCheckin(userName, imageUrl, callback) {
     card.classList.add("exit");
     setTimeout(() => {
       card.remove();
-      callback();
+      callback(); // Continua a fila depois de remover do Firebase
     }, 1000);
   }, 5000);
 }
