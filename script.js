@@ -40,9 +40,9 @@ function processQueue() {
         return;
     }
 
-    const { key, user, imagemURL } = checkin;
+    const { key, user, imageURL } = checkin;
 
-    exibirCheckin(user, imagemURL, () => {
+    exibirCheckin(user, imageURL, () => {
         const checkinRef = ref(database, `checkins/${key}`);
         remove(checkinRef).then(() => {
             isDisplaying = false;
@@ -79,4 +79,5 @@ function exibirCheckin(userName, imageUrl, callback) {
         }, 1000);
     }, 5000);
 }
+
 
