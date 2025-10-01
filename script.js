@@ -21,23 +21,11 @@ const checkinsRef = ref(database, "checkins");
 const checkinQueue = [];
 let isDisplaying = false;
 
-// Aguarda o DOM estar pronto antes de iniciar tudo
-window.addEventListener("DOMContentLoaded", () => {
-  const checkinsDiv = document.getElementById("checkins");
-  if (!checkinsDiv) {
-    console.error("Elemento #checkins não encontrado no DOM.");
-    return;
-  }
-
-  // Escuta novos check-ins
-  onChildAdded(checkinsRef, (snapshot) => {
-    const checkin = snapshot.val();
-    checkinQueue.push({ ...checkin, firebaseKey: snapshot.key });
-    processQueue();
-  });
-
-  // Teste manual
-  exibirCheckin("fernando", "https://i.imgur.com/QqS9SvH.png", () => {});
+// Escuta novos check-ins
+onChildAdded(checkinsRef, (snapshot) => {
+  const data = snapshot.val();
+  checkinQueue.push({ key: snapshot.key, ...data }); // Guarda a chave do check-in
+  processQueue();
 });
 
 function processQueue() {
@@ -46,16 +34,16 @@ function processQueue() {
   isDisplaying = true;
   const checkin = checkinQueue.shift();
 
-  if (!checkin || !checkin.firebaseKey || !checkin.user || !checkin.imageUrl) {
+  if (!checkin || !checkin.key || !checkin.user || !checkin.imageUrl) {
     isDisplaying = false;
     processQueue();
     return;
   }
 
-  const { firebaseKey, user, imageUrl } = checkin;
+  const { key, user, imageUrl } = checkin;
 
   exibirCheckin(user, imageUrl, () => {
-    const checkinRef = ref(database, `checkins/${firebaseKey}`);
+    const checkinRef = ref(database, `checkins/${key}`);
     remove(checkinRef).then(() => {
       isDisplaying = false;
       processQueue();
@@ -69,11 +57,6 @@ function processQueue() {
 
 function exibirCheckin(userName, imageUrl, callback) {
   const checkinsDiv = document.getElementById("checkins");
-  if (!checkinsDiv) {
-    console.error("Elemento #checkins não encontrado.");
-    callback();
-    return;
-  }
 
   const card = document.createElement("div");
   card.classList.add("card");
