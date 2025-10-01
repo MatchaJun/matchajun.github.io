@@ -27,7 +27,7 @@ let audioBuffer;
 
 window.onload = () => {
   audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  fetch("https://assets.mixkit.co/active_storage/sfx/591/591-preview.mp3") 
+  fetch("https://assets.mixkit.co/sfx/download/mixkit-store-door-bell-ring-934.mp3")
     .then(response => response.arrayBuffer())
     .then(buffer => audioContext.decodeAudioData(buffer))
     .then(decoded => {
@@ -109,4 +109,3 @@ function exibirCheckin(userName, imageUrl, callback) {
 
 // Teste local
 exibirCheckin("fernando", "https://i.imgur.com/QqS9SvH.png", () => {});
-
