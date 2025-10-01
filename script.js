@@ -21,11 +21,23 @@ const checkinsRef = ref(database, "checkins");
 const checkinQueue = [];
 let isDisplaying = false;
 
-// Escuta novos check-ins
-onChildAdded(checkinsRef, (snapshot) => {
-  const checkin = snapshot.val();
-  checkinQueue.push({ ...checkin, firebaseKey: snapshot.key });
-  processQueue();
+// Aguarda o DOM estar pronto antes de iniciar tudo
+window.addEventListener("DOMContentLoaded", () => {
+  const checkinsDiv = document.getElementById("checkins");
+  if (!checkinsDiv) {
+    console.error("Elemento #checkins não encontrado no DOM.");
+    return;
+  }
+
+  // Escuta novos check-ins
+  onChildAdded(checkinsRef, (snapshot) => {
+    const checkin = snapshot.val();
+    checkinQueue.push({ ...checkin, firebaseKey: snapshot.key });
+    processQueue();
+  });
+
+  // Teste manual
+  exibirCheckin("fernando", "https://i.imgur.com/QqS9SvH.png", () => {});
 });
 
 function processQueue() {
@@ -57,6 +69,11 @@ function processQueue() {
 
 function exibirCheckin(userName, imageUrl, callback) {
   const checkinsDiv = document.getElementById("checkins");
+  if (!checkinsDiv) {
+    console.error("Elemento #checkins não encontrado.");
+    callback();
+    return;
+  }
 
   const card = document.createElement("div");
   card.classList.add("card");
@@ -79,5 +96,3 @@ function exibirCheckin(userName, imageUrl, callback) {
     }, 1000);
   }, 5000);
 }
-
-exibirCheckin("fernando", "https://i.imgur.com/QqS9SvH.png", () => {});
