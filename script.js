@@ -34,7 +34,7 @@ function processQueue() {
     isDisplaying = true;
     const checkin = checkinQueue.shift();
 
-    if (!checkin || !checkin.key || !checkin.user || !checkin.imagemURL) {
+    if (!checkin || !checkin.key || !checkin.user || !checkin.imageURL) {
         isDisplaying = false;
         processQueue();
         return;
@@ -79,3 +79,4 @@ function exibirCheckin(userName, imageUrl, callback) {
         }, 1000);
     }, 5000);
 }
+
