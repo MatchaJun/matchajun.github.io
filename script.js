@@ -24,8 +24,7 @@ let isDisplaying = false;
 // Escuta novos check-ins
 onChildAdded(checkinsRef, (snapshot) => {
   const data = snapshot.val();
-  // Usa "id" em vez de "key" para não conflitar com o campo existente no Firebase
-  checkinQueue.push({ id: snapshot.key, ...data });
+  checkinQueue.push({ key: snapshot.key, ...data }); // Guarda a chave do check-in
   processQueue();
 });
 
@@ -35,16 +34,16 @@ function processQueue() {
   isDisplaying = true;
   const checkin = checkinQueue.shift();
 
-  if (!checkin || !checkin.id || !checkin.user || !checkin.imageUrl) {
+  if (!checkin || !checkin.key || !checkin.user || !checkin.imageUrl) {
     isDisplaying = false;
     processQueue();
     return;
   }
 
-  const { id, user, imageUrl } = checkin;
+  const { key, user, imageUrl } = checkin;
 
   exibirCheckin(user, imageUrl, () => {
-    const checkinRef = ref(database, `checkins/${id}`);
+    const checkinRef = ref(database, `checkins/${key}`);
     remove(checkinRef).then(() => {
       isDisplaying = false;
       processQueue();
@@ -80,3 +79,5 @@ function exibirCheckin(userName, imageUrl, callback) {
     }, 1000);
   }, 5000);
 }
+
+exibirCheckin("fernando", "https://i.imgur.com/QqS9SvH.png", () => {});
