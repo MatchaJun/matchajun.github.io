@@ -71,6 +71,12 @@ function exibirCheckin(userName, imageUrl, callback) {
   card.appendChild(text);
   checkinsDiv.appendChild(card);
 
+  // 🔥 Ativa animação com delay
+  setTimeout(() => {
+    card.classList.add("show");
+  }, 100);
+
+  // ⏳ Remove após 5 segundos
   setTimeout(() => {
     card.classList.add("exit");
     setTimeout(() => {
@@ -80,4 +86,5 @@ function exibirCheckin(userName, imageUrl, callback) {
   }, 5000);
 }
 
+// Teste manual
 exibirCheckin("fernando", "https://i.imgur.com/QqS9SvH.png", () => {});
