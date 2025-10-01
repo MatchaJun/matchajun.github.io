@@ -18,6 +18,10 @@ const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const checkinsRef = ref(database, "checkins");
 
+// Carrega o som de check-in
+const audio = new Audio("https://cdn.pixabay.com/audio/2025/08/15/audio_c12b07d680.mp3");
+audio.volume = 0.8;
+
 const checkinQueue = [];
 let isDisplaying = false;
 
@@ -68,6 +72,10 @@ function exibirCheckin(userName, imageUrl, callback) {
 
   card.appendChild(text);
   checkinsDiv.appendChild(card);
+
+  // Toca o som de check-in
+  audio.currentTime = 0;
+  audio.play().catch(e => console.warn("Erro ao tocar som:", e));
 
   setTimeout(() => {
     card.classList.add("exit");
