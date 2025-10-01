@@ -23,8 +23,8 @@ let isDisplaying = false;
 
 // Escuta novos check-ins
 onChildAdded(checkinsRef, (snapshot) => {
-  const data = snapshot.val();
-  checkinQueue.push({ key: snapshot.key, ...data }); // Guarda a chave do check-in
+  const checkin = snapshot.val();
+  checkinQueue.push({ ...checkin, firebaseKey: snapshot.key });
   processQueue();
 });
 
@@ -34,16 +34,16 @@ function processQueue() {
   isDisplaying = true;
   const checkin = checkinQueue.shift();
 
-  if (!checkin || !checkin.key || !checkin.user || !checkin.imageUrl) {
+  if (!checkin || !checkin.firebaseKey || !checkin.user || !checkin.imageUrl) {
     isDisplaying = false;
     processQueue();
     return;
   }
 
-  const { key, user, imageUrl } = checkin;
+  const { firebaseKey, user, imageUrl } = checkin;
 
   exibirCheckin(user, imageUrl, () => {
-    const checkinRef = ref(database, `checkins/${key}`);
+    const checkinRef = ref(database, `checkins/${firebaseKey}`);
     remove(checkinRef).then(() => {
       isDisplaying = false;
       processQueue();
