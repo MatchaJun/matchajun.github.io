@@ -79,3 +79,5 @@ function exibirCheckin(userName, imageUrl, callback) {
     }, 1000);
   }, 5000);
 }
+
+exibirCheckin("fernando", "https://i.imgur.com/QqS9SvH.png", () => {});
