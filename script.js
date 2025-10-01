@@ -68,14 +68,16 @@ function processQueue() {
 
   exibirCheckin(user, imageUrl, () => {
     const checkinRef = ref(database, `checkins/${key}`);
-    remove(checkinRef).then(() => {
-      isDisplaying = false;
-      processQueue();
-    }).catch(error => {
-      console.error("Erro ao remover check-in:", error);
-      isDisplaying = false;
-      processQueue();
-    });
+    remove(checkinRef)
+      .then(() => {
+        isDisplaying = false;
+        processQueue();
+      })
+      .catch(error => {
+        console.error("Erro ao remover check-in:", error);
+        isDisplaying = false;
+        processQueue();
+      });
   });
 }
 
