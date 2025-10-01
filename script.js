@@ -71,6 +71,10 @@ function exibirCheckin(userName, imageUrl, callback) {
   card.appendChild(text);
   checkinsDiv.appendChild(card);
 
+  // Aplica animações extras após entrada
+  card.style.animation = "card-entrance 1s ease-out forwards, pulse 0.5s ease-in-out 1s";
+
+  // Remove após 5 segundos com animação de saída
   setTimeout(() => {
     card.classList.add("exit");
     setTimeout(() => {
@@ -80,4 +84,5 @@ function exibirCheckin(userName, imageUrl, callback) {
   }, 5000);
 }
 
+// Teste manual
 exibirCheckin("fernando", "https://i.imgur.com/QqS9SvH.png", () => {});
