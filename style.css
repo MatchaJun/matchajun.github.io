@@ -45,7 +45,7 @@ body {
 
 .card {
     width: 800px;
-    height: 500px;
+    height: 580px;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
@@ -82,4 +82,5 @@ body {
     padding: 10px;
     border-radius: 5px;
 }
+
 
