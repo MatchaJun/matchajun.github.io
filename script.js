@@ -27,7 +27,7 @@ let audioBuffer;
 
 window.onload = () => {
   audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  fetch("https://cdn.pixabay.com/download/audio/2022/03/15/audio_123456789.mp3") // substitua por seu som
+  fetch("https://matchajun.github.io/bell_ring.mp3") // substitua por seu som
     .then(response => response.arrayBuffer())
     .then(buffer => audioContext.decodeAudioData(buffer))
     .then(decoded => {
@@ -109,3 +109,4 @@ function exibirCheckin(userName, imageUrl, callback) {
 
 // Teste local
 exibirCheckin("fernando", "https://i.imgur.com/QqS9SvH.png", () => {});
+
