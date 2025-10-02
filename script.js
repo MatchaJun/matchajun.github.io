@@ -96,7 +96,7 @@ function exibirCheckin(userName, imageUrl, callback) {
   checkinsDiv.appendChild(card);
 
   // Toca o som via Web Audio API
-  tocarSom();
+  //tocarSom();
 
   setTimeout(() => {
     card.classList.add("exit");
@@ -109,4 +109,5 @@ function exibirCheckin(userName, imageUrl, callback) {
 
 // Teste local
 exibirCheckin("fernando", "https://i.imgur.com/QqS9SvH.png", () => {});
+
 
