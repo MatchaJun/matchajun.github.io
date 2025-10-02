@@ -48,7 +48,7 @@ function tocarSom() {
 // Escuta novos check-ins
 onChildAdded(checkinsRef, (snapshot) => {
   const data = snapshot.val();
-  checkinQueue.push({ key: snapshot.key, ...data });
+  checkinQueue.push({ firebaseKey: snapshot.key, ...data });
   processQueue();
 });
 
@@ -58,16 +58,16 @@ function processQueue() {
   isDisplaying = true;
   const checkin = checkinQueue.shift();
 
-  if (!checkin || !checkin.key || !checkin.user || !checkin.imageUrl) {
+  if (!checkin || !checkin.firebaseKey || !checkin.user || !checkin.imageUrl) {
     isDisplaying = false;
     processQueue();
     return;
   }
 
-  const { key, user, imageUrl } = checkin;
+  const { firebaseKey, user, imageUrl } = checkin;
 
   exibirCheckin(user, imageUrl, () => {
-    const checkinRef = ref(database, `checkins/${key}`);
+    const checkinRef = ref(database, `checkins/${firebaseKey}`);
     remove(checkinRef).then(() => {
       isDisplaying = false;
       processQueue();
@@ -109,5 +109,3 @@ function exibirCheckin(userName, imageUrl, callback) {
 
 // Teste local
 exibirCheckin("fernando", "https://i.imgur.com/QqS9SvH.png", () => {});
-
-
