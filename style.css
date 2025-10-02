@@ -76,10 +76,11 @@ body {
 }
 
 .checkin-text {
-    font-size: 36px;
+    font-size: 72px;
     color: white;
     background: rgba(0, 0, 0, 0.5);
     padding: 10px;
     border-radius: 5px;
 }
+
 
