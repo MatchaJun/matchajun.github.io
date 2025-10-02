@@ -108,5 +108,6 @@ function exibirCheckin(userName, imageUrl, callback) {
 }
 
 // Teste local
-exibirCheckin("fernando", "https://i.imgur.com/QqS9SvH.png", () => {});
+exibirCheckin("fernando", "https://i.imgur.com/ADhloh0.png", () => {});
+
 
