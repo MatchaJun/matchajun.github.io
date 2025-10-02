@@ -21,10 +21,34 @@ const checkinsRef = ref(database, "checkins");
 const checkinQueue = [];
 let isDisplaying = false;
 
+// Web Audio API setup
+let audioContext;
+let audioBuffer;
+
+window.onload = () => {
+  audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  fetch("https://cdn.pixabay.com/download/audio/2022/03/15/audio_123456789.mp3") // substitua por seu som
+    .then(response => response.arrayBuffer())
+    .then(buffer => audioContext.decodeAudioData(buffer))
+    .then(decoded => {
+      audioBuffer = decoded;
+    })
+    .catch(error => console.warn("Erro ao carregar som:", error));
+};
+
+// Função para tocar o som
+function tocarSom() {
+  if (!audioContext || !audioBuffer) return;
+  const source = audioContext.createBufferSource();
+  source.buffer = audioBuffer;
+  source.connect(audioContext.destination);
+  source.start(0);
+}
+
 // Escuta novos check-ins
 onChildAdded(checkinsRef, (snapshot) => {
   const data = snapshot.val();
-  checkinQueue.push({ key: snapshot.key, ...data }); // Guarda a chave do check-in
+  checkinQueue.push({ key: snapshot.key, ...data });
   processQueue();
 });
 
@@ -71,13 +95,17 @@ function exibirCheckin(userName, imageUrl, callback) {
   card.appendChild(text);
   checkinsDiv.appendChild(card);
 
+  // Toca o som via Web Audio API
+  tocarSom();
+
   setTimeout(() => {
     card.classList.add("exit");
     setTimeout(() => {
       card.remove();
-      callback(); // Continua a fila depois de remover do Firebase
+      callback();
     }, 1000);
   }, 5000);
 }
 
+// Teste local
 exibirCheckin("fernando", "https://i.imgur.com/QqS9SvH.png", () => {});
