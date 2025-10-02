@@ -89,7 +89,7 @@ function exibirCheckin(userName, imageUrl, callback) {
   card.style.backgroundPosition = "center";
 
   const text = document.createElement("p");
-  text.textContent = `${userName} fez check-in!`;
+  text.textContent = `${userName}`;
   text.classList.add("checkin-text");
 
   card.appendChild(text);
@@ -109,3 +109,4 @@ function exibirCheckin(userName, imageUrl, callback) {
 
 // Teste local
 exibirCheckin("fernando", "https://i.imgur.com/QqS9SvH.png", () => {});
+
