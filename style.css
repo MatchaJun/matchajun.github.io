@@ -67,7 +67,7 @@ body {
 
 .card p {
     position: absolute;
-    bottom: 10px;
+    bottom: 20px;
     left: 20px;
     color: white;
     font-size: 50px;
@@ -76,12 +76,13 @@ body {
 }
 
 .checkin-text {
-    font-size: 50px;
+    font-size: 32px;
     color: white;
     background: rgba(0, 0, 0, 0.5);
     padding: 10px;
     border-radius: 5px;
 }
+
 
 
 
