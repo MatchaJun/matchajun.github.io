@@ -79,8 +79,9 @@ body {
   font-size: 32px;
   color: white;
   background-color: rgba(0, 0, 0, 0.3);
-  mix-blend-mode: overlay; 
+  mix-blend-mode: overlay;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  display: inline-block; 
 }
 
 .checkin-count {
@@ -89,11 +90,14 @@ body {
   right: 30px;
   font-size: 32px;
   color: white;
-  background-color: rgba(0, 0, 0, 0.3); 
-  mix-blend-mode: overlay; 
+  background-color: rgba(0, 0, 0, 0.3);
+  mix-blend-mode: overlay;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
   text-align: right;
+  display: inline-block; 
 }
+
+
 
 
 
