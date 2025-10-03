@@ -87,13 +87,29 @@ function exibirCheckin(userName, imageUrl, checkinCount, callback) {
   card.style.backgroundSize = "cover";
   card.style.backgroundPosition = "center";
 
-  const nameText = document.createElement("p");
-  nameText.innerHTML = `<span>${userName}</span>`;
+  const nameText = document.createElement("div");
   nameText.classList.add("checkin-text");
 
-  const countText = document.createElement("p");
-  countText.innerHTML = `<span>#${checkinCount}</span>`;
+  const nameBg = document.createElement("div");
+  nameBg.classList.add("checkin-bg");
+
+  const nameSpan = document.createElement("span");
+  nameSpan.textContent = userName;
+
+  nameText.appendChild(nameBg);
+  nameText.appendChild(nameSpan);
+
+  const countText = document.createElement("div");
   countText.classList.add("checkin-count");
+
+  const countBg = document.createElement("div");
+  countBg.classList.add("checkin-bg");
+
+  const countSpan = document.createElement("span");
+  countSpan.textContent = `#${checkinCount}`;
+
+  countText.appendChild(countBg);
+  countText.appendChild(countSpan);
 
   card.appendChild(nameText);
   card.appendChild(countText);
