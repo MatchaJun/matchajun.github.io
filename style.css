@@ -68,9 +68,9 @@ body {
 /* Caixinhas com overlay suave */
 .checkin-text {
   position: absolute;
-  bottom: 20px;
+  bottom: 35px;
   left: 30px;
-  font-size: 28px;
+  font-size: 50px;
   padding: 0;
   border-radius: 5px;
   display: inline-flex;
@@ -80,9 +80,9 @@ body {
 
 .checkin-count {
   position: absolute;
-  bottom: 20px;
+  bottom: 35px;
   right: 30px;
-  font-size: 50px; 
+  font-size: 100px; 
   padding: 0;
   border-radius: 5px;
   display: inline-flex;
@@ -119,4 +119,5 @@ body {
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
   z-index: 1;
 }
+
 
