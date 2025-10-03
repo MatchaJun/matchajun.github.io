@@ -88,11 +88,11 @@ function exibirCheckin(userName, imageUrl, checkinCount, callback) {
   card.style.backgroundPosition = "center";
 
   const nameText = document.createElement("p");
-  nameText.textContent = `${userName}`;
+  nameText.innerHTML = `<span>${userName}</span>`;
   nameText.classList.add("checkin-text");
 
   const countText = document.createElement("p");
-  countText.textContent = `#${checkinCount}`;
+  countText.innerHTML = `<span>#${checkinCount}</span>`;
   countText.classList.add("checkin-count");
 
   card.appendChild(nameText);
