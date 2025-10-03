@@ -44,6 +44,7 @@ function tocarSom() {
   source.start(0);
 }
 
+// Escuta novos check-ins
 onChildAdded(checkinsRef, (snapshot) => {
   const data = snapshot.val();
   checkinQueue.push({ firebaseKey: snapshot.key, ...data });
@@ -86,9 +87,6 @@ function exibirCheckin(userName, imageUrl, checkinCount, callback) {
   card.style.backgroundSize = "cover";
   card.style.backgroundPosition = "center";
 
-  const infoContainer = document.createElement("div");
-  infoContainer.classList.add("checkin-info");
-
   const nameText = document.createElement("p");
   nameText.textContent = `${userName}`;
   nameText.classList.add("checkin-text");
@@ -97,9 +95,8 @@ function exibirCheckin(userName, imageUrl, checkinCount, callback) {
   countText.textContent = `#${checkinCount}`;
   countText.classList.add("checkin-count");
 
-  infoContainer.appendChild(nameText);
-  infoContainer.appendChild(countText);
-  card.appendChild(infoContainer);
+  card.appendChild(nameText);
+  card.appendChild(countText);
   checkinsDiv.appendChild(card);
 
   //tocarSom();
