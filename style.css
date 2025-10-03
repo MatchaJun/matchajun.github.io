@@ -92,4 +92,6 @@ body {
     background: rgba(0, 0, 0, 0.5);
     padding: 10px;
     border-radius: 5px;
+    text-align: right;
 }
+
