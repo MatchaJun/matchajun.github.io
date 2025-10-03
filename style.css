@@ -66,17 +66,31 @@ body {
 }
 
 /* Caixinhas com overlay suave */
-.checkin-text,
-.checkin-count {
+.checkin-text {
   position: absolute;
-  bottom: -20px;
-  font-size: 32px;
+  bottom: 20px;
+  left: 30px;
+  font-size: 28px;
   padding: 0;
   border-radius: 5px;
   display: inline-flex;
   align-items: center;
   white-space: nowrap;
 }
+
+.checkin-count {
+  position: absolute;
+  bottom: 20px;
+  right: 30px;
+  font-size: 50px; 
+  padding: 0;
+  border-radius: 5px;
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  width: fit-content;
+}
+
 
 .checkin-text {
   left: 30px;
@@ -105,3 +119,4 @@ body {
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
   z-index: 1;
 }
+
