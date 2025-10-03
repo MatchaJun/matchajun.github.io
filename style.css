@@ -93,9 +93,11 @@ body {
   background-color: rgba(0, 0, 0, 0.3);
   mix-blend-mode: overlay;
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
-  text-align: right;
-  display: inline-block; 
+  display: inline-block;
+  width: auto; 
 }
+
+
 
 
 
