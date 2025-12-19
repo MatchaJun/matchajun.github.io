@@ -114,10 +114,15 @@ function exibirCheckin(userName, imageUrl, checkinCount, callback) {
   card.appendChild(nameText);
   card.appendChild(countText);
   checkinsDiv.appendChild(card);
+  
+  setTimeout(() => {
+    card.classList.add("shine");
+  }, 600);
 
   //tocarSom();
 
   setTimeout(() => {
+    card.classList.remove("shine");
     card.classList.add("exit");
     setTimeout(() => {
       card.remove();
