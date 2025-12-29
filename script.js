@@ -122,4 +122,4 @@ function exibirCheckin(userName, imageUrl, checkinCount, callback) {
   }, 5000);
 }
 
-exibirCheckin("fernando", "https://i.imgur.com/ADhloh0.png", 99, () => {});
+exibirCheckin("Cobaia", "https://i.imgur.com/ADhloh0.png", 99, () => {});
