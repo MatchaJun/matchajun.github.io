@@ -119,7 +119,7 @@ function exibirCheckin(userName, imageUrl, checkinCount, callback) {
     card.classList.add("shine");
   }, 600);
 
-  //tocarSom();
+  tocarSom();
 
   setTimeout(() => {
     card.classList.remove("shine");
