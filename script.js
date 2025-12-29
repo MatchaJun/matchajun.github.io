@@ -1,7 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-app.js";
 import { getDatabase, ref, onChildAdded, remove } from "https://www.gstatic.com/firebasejs/11.4.0/firebase-database.js";
 
-// Configuração do Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyCm97Jxw-CK-m3C3qCG8bIIPYDv9QmXYkc",
   authDomain: "checkin-card.firebaseapp.com",
@@ -13,7 +12,6 @@ const firebaseConfig = {
   measurementId: "G-WHDV13H81N"
 };
 
-// Inicializa o Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const checkinsRef = ref(database, "checkins");
@@ -21,30 +19,22 @@ const checkinsRef = ref(database, "checkins");
 const checkinQueue = [];
 let isDisplaying = false;
 
-// Web Audio API setup
-let audioContext;
-let audioBuffer;
+const somSino = new Audio("https://matchajun.github.io/bell_ring.mp3");
 
-window.onload = () => {
-  audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  fetch("https://matchajun.github.io/bell_ring.mp3")
-    .then(response => response.arrayBuffer())
-    .then(buffer => audioContext.decodeAudioData(buffer))
-    .then(decoded => {
-      audioBuffer = decoded;
-    })
-    .catch(error => console.warn("Erro ao carregar som:", error));
-};
+document.addEventListener('click', () => {
+  somSino.play().then(() => {
+    somSino.pause();
+    somSino.currentTime = 0;
+  }).catch(() => {});
+}, { once: true });
 
 function tocarSom() {
-  if (!audioContext || !audioBuffer) return;
-  const source = audioContext.createBufferSource();
-  source.buffer = audioBuffer;
-  source.connect(audioContext.destination);
-  source.start(0);
+  somSino.currentTime = 0;
+  somSino.play().catch(error => {
+    console.warn("navegador bloqueando", error);
+  });
 }
 
-// Escuta novos check-ins
 onChildAdded(checkinsRef, (snapshot) => {
   const data = snapshot.val();
   checkinQueue.push({ firebaseKey: snapshot.key, ...data });
@@ -114,12 +104,12 @@ function exibirCheckin(userName, imageUrl, checkinCount, callback) {
   card.appendChild(nameText);
   card.appendChild(countText);
   checkinsDiv.appendChild(card);
-  
+
+  tocarSom();
+
   setTimeout(() => {
     card.classList.add("shine");
   }, 600);
-
-  tocarSom();
 
   setTimeout(() => {
     card.classList.remove("shine");
@@ -131,5 +121,4 @@ function exibirCheckin(userName, imageUrl, checkinCount, callback) {
   }, 5000);
 }
 
-// Teste local
 exibirCheckin("fernando", "https://i.imgur.com/ADhloh0.png", 99, () => {});
