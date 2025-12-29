@@ -20,6 +20,7 @@ const checkinQueue = [];
 let isDisplaying = false;
 
 const somSino = new Audio("https://matchajun.github.io/bell_ring.wav");
+somSino.volume = 0.3;
 
 document.addEventListener('click', () => {
   somSino.play().then(() => {
