@@ -19,7 +19,7 @@ const checkinsRef = ref(database, "checkins");
 const checkinQueue = [];
 let isDisplaying = false;
 
-const somSino = new Audio("https://matchajun.github.io/bell_ring.mp3");
+const somSino = new Audio("https://matchajun.github.io/bell_ring.wav");
 
 document.addEventListener('click', () => {
   somSino.play().then(() => {
