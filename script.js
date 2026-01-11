@@ -19,25 +19,58 @@ const checkinsRef = ref(database, "checkins");
 const checkinQueue = [];
 let isDisplaying = false;
 
+// Identificador do streamer 
+const urlParams = new URLSearchParams(window.location.search);
+const STREAMER_ID = urlParams.get("streamer"); 
+
+if (!STREAMER_ID) {
+  console.warn("Nenhum parâmetro 'streamer' na URL. Ex.: ?streamer=matchajun");
+  const warn = document.createElement("div");
+  warn.textContent = "Parâmetro 'streamer' não configurado na URL.";
+  warn.style.position = "fixed";
+  warn.style.top = "10px";
+  warn.style.left = "10px";
+  warn.style.padding = "8px 12px";
+  warn.style.background = "rgba(0,0,0,0.7)";
+  warn.style.color = "#fff";
+  warn.style.fontFamily = "Arial, sans-serif";
+  warn.style.fontSize = "14px";
+  document.body.appendChild(warn);
+}
+
+// Som
 const somSino = new Audio("https://matchajun.github.io/bell_ring.wav");
 somSino.volume = 0.3;
 
-document.addEventListener('click', () => {
-  somSino.play().then(() => {
-    somSino.pause();
-    somSino.currentTime = 0;
-  }).catch(() => {});
-}, { once: true });
+document.addEventListener(
+  "click",
+  () => {
+    somSino
+      .play()
+      .then(() => {
+        somSino.pause();
+        somSino.currentTime = 0;
+      })
+      .catch(() => {});
+  },
+  { once: true }
+);
 
 function tocarSom() {
   somSino.currentTime = 0;
-  somSino.play().catch(error => {
+  somSino.play().catch((error) => {
     console.warn("navegador bloqueando", error);
   });
 }
 
+// Escuta novos checkins
 onChildAdded(checkinsRef, (snapshot) => {
   const data = snapshot.val();
+
+  if (STREAMER_ID && data.streamerId && data.streamerId !== STREAMER_ID) {
+    return;
+  }
+
   checkinQueue.push({ firebaseKey: snapshot.key, ...data });
   processQueue();
 });
@@ -58,14 +91,16 @@ function processQueue() {
 
   exibirCheckin(user, imageUrl, checkinCount || 1, () => {
     const checkinRef = ref(database, `checkins/${firebaseKey}`);
-    remove(checkinRef).then(() => {
-      isDisplaying = false;
-      processQueue();
-    }).catch(error => {
-      console.error("Erro ao remover check-in:", error);
-      isDisplaying = false;
-      processQueue();
-    });
+    remove(checkinRef)
+      .then(() => {
+        isDisplaying = false;
+        processQueue();
+      })
+      .catch((error) => {
+        console.error("Erro ao remover check-in:", error);
+        isDisplaying = false;
+        processQueue();
+      });
   });
 }
 
@@ -121,5 +156,3 @@ function exibirCheckin(userName, imageUrl, checkinCount, callback) {
     }, 1000);
   }, 5000);
 }
-
-exibirCheckin("Cobaia", "https://i.imgur.com/ADhloh0.png", 99, () => {});
